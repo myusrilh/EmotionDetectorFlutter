@@ -8,37 +8,6 @@ class ProfilePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        // title: Text('Homepage'),
-        // centerTitle: true,
-        backgroundColor: lightGreenColor,
-        toolbarHeight: 87,
-        shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.vertical(bottom: Radius.circular(45))),
-        leading: Row(
-          children: [
-            SizedBox(
-              width: 37,
-              height: 0,
-            ),
-            IconButton(
-                onPressed: () {},
-                icon: Container(
-                  child: Image.asset(
-                    'assets/images/up_profile_icon_round.png',
-                    width: 28,
-                  ),
-                )),
-            Text(
-              "Hi, Yusril",
-              style: TextStyle(
-                  color: Colors.white,
-                  fontSize: 12,
-                  fontWeight: FontWeight.w600),
-            )
-          ],
-        ),
-      ),
       backgroundColor: Colors.white,
       body: Center(
         child: Container(
@@ -101,7 +70,8 @@ class ProfilePage extends StatelessWidget {
                         padding: const EdgeInsets.only(left: 14, right: 7),
                         child: Text(
                             overflow: TextOverflow.ellipsis,
-                            "Seorang mahasiswa random yang suka melakukan segala hal yang menantang. Sering overthinking dan tidak percaya diri. Namun, itu semua tidak membuat semangat untuk berkarya menghilang.", maxLines: 4,
+                            "Seorang mahasiswa random yang suka melakukan segala hal yang menantang. Sering overthinking dan tidak percaya diri. Namun, itu semua tidak membuat semangat untuk berkarya menghilang.",
+                            maxLines: 4,
                             style: TextStyle(
                               color: Colors.white,
                               fontSize: 11,

@@ -17,8 +17,6 @@ class Scan extends StatefulWidget {
 }
 
 class ScanPage extends State<Scan> {
-  // ScanPage({Key? key}) : super(key: key);
-
   final FaceDetector _faceDetector = FaceDetector(
     options: FaceDetectorOptions(
       enableContours: true,

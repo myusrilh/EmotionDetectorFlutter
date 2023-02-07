@@ -1,0 +1,9 @@
+// Patient Table
+
+CREATE TABLE 'patient'(id INT NOT NULL AUTO_INCREMENT PRIMARY KEY, patient_name varchar(150), patient_condition text, tingkat_stress int, profile_picture varchar(200), date_scan date, created_at timestamp, updated_at timestamp);
+
+// Insert data patient
+INSERT INTO `patient` (`id`, `patient_name`, `patient_condition`, `tingkat_stress`, `profile_picture`, `date_scan`, `created_at`, `updated_at`) VALUES ('1', 'Toni', 'Sedih', '40', 'assets/profil_toni_1.jpg', '2023-01-16', '2023-01-16 19:35:59', NULL), ('2', 'John', 'Senang', '10', 'assets/john_1.jpg', '2023-01-15', '2023-01-15 11:56:52', NULL);
+
+// Doctor Table
+CREATE TABLE 'patient'(id INT NOT NULL AUTO_INCREMENT PRIMARY KEY, doctor_name varchar(150) NULL, doctor_advice text NULL, patient_id INT NULL, REFERENCES doctor_patient_id FOREIGN KEY (patient_id) REFERENCES patient(id) ON UPDATE CASCADE ON DELETE CASCADE);

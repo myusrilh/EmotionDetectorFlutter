@@ -1,3 +1,6 @@
+import 'package:emotion_detector/app_bar/home_page_app_bar.dart';
+import 'package:emotion_detector/app_bar/scan_page_app_bar.dart';
+import 'package:emotion_detector/app_bar/without_tingkat_stress_app_bar.dart';
 import 'package:emotion_detector/pages/homepage.dart';
 import 'package:emotion_detector/pages/medicalreportpage.dart';
 import 'package:emotion_detector/pages/profilepage.dart';
@@ -5,20 +8,24 @@ import 'package:emotion_detector/pages/scanpage.dart';
 import 'package:flutter/material.dart';
 import 'package:emotion_detector/theme.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:percent_indicator/linear_percent_indicator.dart';
 
 class MasterPage extends StatefulWidget {
   @override
   _MasterPageState createState() => _MasterPageState();
 }
 
-final _pageOptions = [MedicalReportPage(), HomePage(), ProfilePage(), Scan()];
+final _pageOptions = [MedicalReportPage(), HomePage(), ProfilePage()];
 
 class _MasterPageState extends State<MasterPage> {
   int selectedPage = 1;
+  var scanSelected = false;
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+        extendBodyBehindAppBar: selectedPage == 3 ? true : false,
+        appBar: _appBarWidget(),
         backgroundColor: Colors.white,
         body: _pageOptions[selectedPage],
         floatingActionButton: Padding(
@@ -29,6 +36,7 @@ class _MasterPageState extends State<MasterPage> {
                 // setState(() {
                 //   selectedPage = 3;
                 // });
+                scanSelected = true;
                 Navigator.push(
                   context,
                   MaterialPageRoute(builder: (context) => Scan()),
@@ -91,9 +99,20 @@ class _MasterPageState extends State<MasterPage> {
                     //         builder: (context) => _pageOptions[index]),
                     //     (route) => false);
                     setState(() {
+                      scanSelected = false;
                       selectedPage = index;
                     });
                   })),
         ));
+  }
+
+  PreferredSizeWidget _appBarWidget() {
+    if (selectedPage == 1) {
+      return HomePageAppBar();
+    } else if (scanSelected) {
+      return ScanPageAppBar();
+    } else {
+      return ModifiedAppBar();
+    }
   }
 }
