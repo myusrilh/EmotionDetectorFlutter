@@ -70,7 +70,7 @@ class ScanPageAppBar extends StatelessWidget implements PreferredSizeWidget {
       //     borderRadius: BorderRadius.vertical(bottom: Radius.circular(45))),
       leading: BackButton(
         // color: Colors.black,
-        onPressed: () => Navigator.pop(context),
+        onPressed: () => Navigator.of(context).pop(),
       ),
     );
   }
