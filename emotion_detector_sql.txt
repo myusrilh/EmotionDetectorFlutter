@@ -1,9 +1,41 @@
-// Patient Table
+// User Table
+CREATE TABLE `user`(id INT NOT NULL AUTO_INCREMENT PRIMARY KEY, name varchar(200), profile_picture varchar(200) NULL, role ENUM('admin', 'patient', 'doctor') , created_at timestamp NULL, updated_at timestamp NULL);
 
-CREATE TABLE 'patient'(id INT NOT NULL AUTO_INCREMENT PRIMARY KEY, patient_name varchar(150), patient_condition text, tingkat_stress int, profile_picture varchar(200), date_scan date, created_at timestamp, updated_at timestamp);
+// Insert data user
+INSERT INTO `user`(`name`, `profile_picture`, `role`, `created_at`,`updated_at`) VALUES ('Aminuddin','assets/profil_toni_1.jpg','admin', '2023-01-16 19:35:59', NULL),('Toni','assets/profil_toni_1.jpg','patient', '2023-01-16 19:35:59', NULL),('John','assets/profil_john_1.jpg','patient', '2023-01-16 19:35:59', NULL),('Kruger','assets/profil_john_1.jpg','doctor', '2023-01-16 19:35:59', NULL);
+
+//Select user by username and password
+SELECT * FROM user WHERE username = 'toni' AND password = 'toni';
+
+
+
+// Patient Table
+CREATE TABLE `patient`(id INT NOT NULL AUTO_INCREMENT PRIMARY KEY, user_id INT NULL, tingkat_stress int, created_at timestamp NULL, updated_at timestamp NULL, INDEX usr_id (user_id), FOREIGN KEY (user_id) REFERENCES user(id) ON UPDATE CASCADE ON DELETE CASCADE);
 
 // Insert data patient
-INSERT INTO `patient` (`id`, `patient_name`, `patient_condition`, `tingkat_stress`, `profile_picture`, `date_scan`, `created_at`, `updated_at`) VALUES ('1', 'Toni', 'Sedih', '40', 'assets/profil_toni_1.jpg', '2023-01-16', '2023-01-16 19:35:59', NULL), ('2', 'John', 'Senang', '10', 'assets/john_1.jpg', '2023-01-15', '2023-01-15 11:56:52', NULL);
+INSERT INTO `patient` ( `user_id`, `tingkat_stress`, `created_at`, `updated_at`) VALUES (2, 10, '2023-01-16 19:35:59', NULL), (3, 15, '2023-01-15 11:56:52', NULL);
+
+//Select data patient
+SELECT patient.id, patient.user_id, patient.tingkat_stress, user.name, user.profile_picture, user.role, patient.created_at, patient.updated_at FROM patient JOIN user ON patient.user_id = user.id;
+
+
 
 // Doctor Table
-CREATE TABLE 'patient'(id INT NOT NULL AUTO_INCREMENT PRIMARY KEY, doctor_name varchar(150) NULL, doctor_advice text NULL, patient_id INT NULL, REFERENCES doctor_patient_id FOREIGN KEY (patient_id) REFERENCES patient(id) ON UPDATE CASCADE ON DELETE CASCADE);
+CREATE TABLE `doctor`(id INT NOT NULL AUTO_INCREMENT PRIMARY KEY, user_id INT NULL, spesialisasi varchar(200), status varchar(100), created_at timestamp NULL, updated_at timestamp NULL, INDEX usr_id (user_id), FOREIGN KEY (user_id) REFERENCES user(id) ON UPDATE CASCADE ON DELETE CASCADE);
+
+// Insert data doctor
+INSERT INTO `doctor` (`user_id`, `spesialisasi`, `status`, `created_at`, `updated_at`) VALUES (4, 'Psikiater', 'Aktif', '2023-01-16 19:35:59', NULL);
+
+//Select data doctor
+SELECT doctor.id, doctor.user_id, doctor.spesialisasi, doctor.status, user.name, user.profile_picture, user.role, doctor.created_at, doctor.updated_at FROM doctor JOIN user ON doctor.user_id = user.id;
+
+
+
+// History Table
+CREATE TABLE `history`(id INT NOT NULL AUTO_INCREMENT PRIMARY KEY, patient_id INT NULL, doctor_id INT NULL, patient_condition text, doctor_advice text NULL, date_scan date, created_at timestamp NULL, updated_at timestamp NULL, INDEX pat_id (patient_id), FOREIGN KEY (patient_id) REFERENCES patient(id) ON UPDATE CASCADE ON DELETE CASCADE, INDEX doc_id (doctor_id), FOREIGN KEY (doctor_id) REFERENCES doctor(id) ON UPDATE CASCADE ON DELETE CASCADE);
+
+//Insert data History
+INSERT INTO `history` (`patient_id`, `doctor_id`, `patient_condition`, `doctor_advice`, `date_scan`, `created_at`,`updated_at`) VALUES (1, 1, 'Sedih',  'Jangan menyimpan kesedihanmu terlalu lama. Carilah teman untuk bercerita. Jika memang anda tidak memiliki siapapun untuk mendengarkan keluh kesah anda, maka anda bisa menumpahkannya ke sosial media yang anda buat khusus untuk menceritakan keluh kesah anda.','2023-01-16', '2023-01-16 19:35:59', NULL);
+
+//Select data history
+SELECT history.id, user_pat.name AS patient_name, user_doc.name AS doctor_name, history.patient_condition, history.doctor_advice, history.date_scan, history.created_at, history.updated_at FROM history JOIN patient ON history.patient_id = patient.id JOIN doctor ON history.doctor_id = doctor.id JOIN user AS user_doc ON user_doc.id = doctor.user_id JOIN user AS user_pat ON user_pat.id = patient.user_id;
